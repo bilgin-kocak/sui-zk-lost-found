@@ -1,5 +1,4 @@
 import {
-  useCurrentAccount,
   useSignAndExecuteTransactionBlock,
   useSuiClient,
   useSuiClientQuery,
