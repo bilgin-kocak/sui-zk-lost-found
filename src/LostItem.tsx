@@ -9,7 +9,7 @@ import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { useNetworkVariable } from "./networkConfig";
 
-export function Counter({ id }: { id: string }) {
+export  function LostItem({ id }: { id: string }) {
   const client = useSuiClient();
   const currentAccount = useCurrentAccount();
   const counterPackageId = useNetworkVariable("counterPackageId");
@@ -61,22 +61,25 @@ export function Counter({ id }: { id: string }) {
 
   if (!data.data) return <Text>Not found</Text>;
 
-  const ownedByCurrentAccount =
-    getCounterFields(data.data)?.owner === currentAccount?.address;
+  console.log("Object Data", data.data);
+
+  // const ownedByCurrentAccount =
+  //   getCounterFields(data.data)?.owner === currentAccount?.address;
 
   return (
     <>
-      <Heading size="3">Counter {id}</Heading>
+      <Heading size="3">Lost Item Object Id: {id}</Heading>
 
       <Flex direction="column" gap="2">
-        <Text>Count: {getCounterFields(data.data)?.value}</Text>
+        <Text>Lost Item: {getCounterFields(data.data)?.value}</Text>
+        <Text>Lost Item Hash: {data.data?.content?.fields?.name?.fields?.name}</Text>
         <Flex direction="row" gap="2">
           <Button onClick={() => executeMoveCall("increment")}>
             Increment
           </Button>
-          {ownedByCurrentAccount ? (
+          {/* {ownedByCurrentAccount ? (
             <Button onClick={() => executeMoveCall("reset")}>Reset</Button>
-          ) : null}
+          ) : null} */}
         </Flex>
       </Flex>
     </>

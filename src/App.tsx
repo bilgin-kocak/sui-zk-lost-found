@@ -1,17 +1,21 @@
 import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
 import { isValidSuiObjectId } from "@mysten/sui.js/utils";
-import { Box, Container, Flex, Heading } from "@radix-ui/themes";
+import { Box, Container, Flex, Heading, TextField } from "@radix-ui/themes";
 import { useState } from "react";
-import { Counter } from "./Counter";
-// import { CreateCounter } from "./CreateCounter";
+import { LostItem } from "./LostItem";
+import { FoundItem } from "./FoundItem";
 import { CreateLostItem } from "./ZKLostFound";
+import { LostItems } from "./LostItems";
 
 function App() {
+  const [lostData, setLostData] = useState<string>(""); 
   const currentAccount = useCurrentAccount();
   const [counterId, setCounter] = useState(() => {
     const hash = window.location.hash.slice(1);
     return isValidSuiObjectId(hash) ? hash : null;
   });
+
+  console.log(lostData)
 
   return (
     <>
@@ -33,23 +37,38 @@ function App() {
         </Box>
       </Flex>
       <Container>
+        <LostItems></LostItems>
+
+        
         <Container
           mt="5"
           pt="2"
           px="4"
           style={{ background: "var(--gray-a2)", minHeight: 500 }}
         >
+          
           {currentAccount ? (
-            counterId ? (
-              <Counter id={counterId} />
-            ) : (
+            <>
+            <TextField.Input placeholder="Write your lost item indentifier" onChange={(e) => setLostData(e.target.value)} value={lostData}/>
+              {counterId && (
+                <LostItem id={counterId} />
+              )}
               <CreateLostItem
+                lostData={lostData}
                 onCreated={(id) => {
                   window.location.hash = id;
                   setCounter(id);
                 }}
               />
-            )
+
+              <FoundItem
+                lostData={lostData}
+                onCreated={(id) => {
+                  window.location.hash = id;
+                  setCounter(id);
+                }}
+              />
+            </>
           ) : (
             <Heading>Please connect your wallet</Heading>
           )}

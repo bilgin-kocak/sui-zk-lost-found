@@ -7,8 +7,10 @@ import {
 import { useNetworkVariable } from "./networkConfig";
 
 export function CreateLostItem({
+  lostData,
   onCreated,
 }: {
+  lostData: string;
   onCreated: (id: string) => void;
 }) {
   const client = useSuiClient();
@@ -16,7 +18,7 @@ export function CreateLostItem({
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
 
   return (
-    <Container>
+    <Container style={{ marginTop: 20 }}>
       <Button
         size="3"
         onClick={() => {
@@ -29,12 +31,14 @@ export function CreateLostItem({
   );
 
   function create() {
+    console.log("create");
     const txb = new TransactionBlock();
-    const lost_items = txb.object("0xb035c366ed96cb111e9a36321dfd11054e3ac9baa635fd4dcfd324699a4eb37")
-    const [coin] = txb.splitCoins(txb.gas, [1]) // define payment coin
+    const lost_items = txb.object("0xb035c366ed96cb111e9a36321dfd11054e3ac9baa635fd4dcfd324699a4eb37c")
+    console.log(lost_items);
+    const [coin] = txb.splitCoins(txb.gas, [1500]) // define payment coin
 
     txb.moveCall({
-      arguments: [txb.pure.string('hashhashhash'), coin, lost_items ],
+      arguments: [txb.pure.string(lostData || 'hashhashhash'), coin, lost_items ],
       target: `${counterPackageId}::zk_lost_and_found::create_lost_item_hash`,
     });
 
