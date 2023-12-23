@@ -14,7 +14,11 @@ You can find dapp from link below.
 
 ## Test Smart Contract
 
-
+```
+cd ./move/my_first_package
+sui move build
+sui move test
+```bash
 
 
 
