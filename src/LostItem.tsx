@@ -11,7 +11,7 @@ import { useNetworkVariable } from "./networkConfig";
 
 export  function LostItem({ id }: { id: string }) {
   const client = useSuiClient();
-  const currentAccount = useCurrentAccount();
+  // const currentAccount = useCurrentAccount();
   const counterPackageId = useNetworkVariable("counterPackageId");
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const { data, isPending, error, refetch } = useSuiClientQuery("getObject", {
@@ -72,7 +72,7 @@ export  function LostItem({ id }: { id: string }) {
 
       <Flex direction="column" gap="2">
         <Text>Lost Item: {getCounterFields(data.data)?.value}</Text>
-        <Text>Lost Item Hash: {data.data?.content?.fields?.name?.fields?.name}</Text>
+        <Text>Lost Item Hash: {getCounterFields(data.data)?.name?.fields?.name}</Text>
         <Flex direction="row" gap="2">
           <Button onClick={() => executeMoveCall("increment")}>
             Increment
@@ -90,5 +90,5 @@ function getCounterFields(data: SuiObjectData) {
     return null;
   }
 
-  return data.content.fields as { value: number; owner: string };
+  return data.content.fields as { value: number; owner: string, name: { fields: { name: string } } };
 }
