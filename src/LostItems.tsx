@@ -14,7 +14,7 @@ import {
     // const currentAccount = useCurrentAccount();
     // const counterPackageId = useNetworkVariable("counterPackageId");
     // const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
-    const { data, isPending, error, refetch } = useSuiClientQuery("getObject", {
+    const { data, isPending, error } = useSuiClientQuery("getObject", {
       id: "0xb035c366ed96cb111e9a36321dfd11054e3ac9baa635fd4dcfd324699a4eb37c",
       options: {
         showContent: true,
